@@ -1,27 +1,35 @@
 <?php
 
-class ImageJet_Core extends Image {
+class ImageJet_ImageJet {
+	protected $path;
+	
+	public function __construct($path) {
+		$this->path = $path;
+	}
+	
 	public function thumbnail($config, $new_path) {
 		// If the config is a string, load the array.
 		if (is_string($config)) {
-			$config = Kohana::config('imagefly.' . $config);
+			$config = Kohana::$config->load('imagefly.' . $config);
 		}
-
+		
 		// If it's not an array, then bail.
 		if (! is_array($config)) {
 			throw new Exception('Invalid image config');
 		}
-
+		
 		// Ensure the path exists.
 		$dir = dirname($new_path);
 		if (! is_dir($dir)) {
 			mkdir($dir, 0775, TRUE);
 		}
-
+		
 		// Resize and save the image.
-		$this->resize($config['width'], $config['height']);
-		$this->save($new_path);
-
+		$image = Image::factory($this->path);
+		$image->resize($config['width'], $config['height']);
+		$image->save($new_path);
+		unset($image);
+		
 		// Create the new image resource.
 		$image = imagecreatetruecolor($w = $config['width'], $h = $config['height']);
 
@@ -33,7 +41,6 @@ class ImageJet_Core extends Image {
 		// Bring in the original image.
 		$orig = imagecreatefromjpeg($new_path);
 		$sx = imagesx($orig); $sy = imagesy($orig);
-		// imagealphablending($orig, TRUE);
 		imagecopy($image, $orig, ($w - $sx) / 2, ($h - $sy) / 2, 0, 0, $sx, $sy);
 
 		// Add the border.
