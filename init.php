@@ -1,14 +1,10 @@
 <?php
 
-// Module initialisation.
-
-Route::set(
-	'imagejet',
-	'imagejet(/<method>(/<image_path>))',
-	array('image_path' => '(.*?)')
-)
-->defaults(array(
-	'controller' => 'imagejet',
-	'method' => 'default',
-	'action' => 'thumbnail',
-));
+/**
+ * Add a route for imagejet-served images.
+ */
+Route::set('imagejet', 'imagejet/<group>/<image_path>', array('image_path' => '(.*?)'))
+	->defaults(array(
+		'controller' => 'imagejet',
+		'action' => 'thumbnail',
+	));

@@ -2,34 +2,34 @@
 
 class ImageJet_ImageJet {
 	protected $path;
-	
+
 	public function __construct($path) {
 		$this->path = $path;
 	}
-	
+
 	public function thumbnail($config, $new_path) {
 		// If the config is a string, load the array.
 		if (is_string($config)) {
 			$config = Kohana::$config->load('imagefly.' . $config);
 		}
-		
+
 		// If it's not an array, then bail.
 		if (! is_array($config)) {
 			throw new Exception('Invalid image config');
 		}
-		
+
 		// Ensure the path exists.
 		$dir = dirname($new_path);
 		if (! is_dir($dir)) {
 			mkdir($dir, 0775, TRUE);
 		}
-		
+
 		// Resize and save the image.
 		$image = Image::factory($this->path);
 		$image->resize($config['width'], $config['height']);
 		$image->save($new_path);
 		unset($image);
-		
+
 		// Create the new image resource.
 		$image = imagecreatetruecolor($w = $config['width'], $h = $config['height']);
 

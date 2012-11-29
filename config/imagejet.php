@@ -1,8 +1,11 @@
 <?php
 
 return array(
+	/**
+	 * Where the full-size image files are stored.
+	 */
 	'image_root' => DOCROOT . 'imagejet/',
-	
+
 	/**
 	 * Define width and height "groups" here.
 	 * Note that the generated images will be this size with the source image
