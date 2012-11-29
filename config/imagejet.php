@@ -4,7 +4,12 @@ return array(
 	/**
 	 * Where the full-size image files are stored.
 	 */
-	'image_root' => DOCROOT . 'imagejet/',
+	'image-root' => DOCROOT . 'imagejet/',
+
+	/**
+	 * If we need to create folders, what permissions should they have?
+	 */
+	'folder-permissions' => 0755,
 
 	/**
 	 * Define width and height "groups" here.
